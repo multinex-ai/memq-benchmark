@@ -1,14 +1,29 @@
 {
   "benchmark": "memq-token-cost-savings",
-  "tokenizer": "gpt-tokenizer (cl100k/o200k BPE via countTokens)",
-  "corpusPath": "datasets/ops-retrieval/corpus.json",
-  "retrievalResultsDir": "artifacts/retrieval-results",
-  "corpusEntryCount": 31,
-  "fullCorpusTokens": 876,
-  "avgNamespaceEntryCount": 10.3,
-  "avgNamespaceTokens": 292,
-  "avgTokensPerEntry": 28.3,
-  "memqRetrievalRunsAnalyzed": 12,
+  "tokenizer": "gpt-tokenizer (BPE via src/tokenizer.ts)",
+  "sources": {
+    "corpusPath": "datasets/ops-retrieval/corpus.json",
+    "casesPath": "datasets/ops-retrieval/cases.json",
+    "retrievalSnapshotPath": "artifacts/snapshot.json",
+    "retrievalSnapshotGeneratedAt": "2026-04-28T18:02:44.970Z"
+  },
+  "snapshotVerification": {
+    "benchmarkTopK": 5,
+    "memqPrimaryAt1Pct": 100,
+    "memqRecallAtKPct": 100,
+    "memqLeakageFreePct": 100,
+    "memqAvgLatencyMs": 13
+  },
+  "corpusStats": {
+    "entryCount": 31,
+    "caseCount": 12,
+    "fullCorpusTokens": 876,
+    "avgTokensPerEntry": 28.26,
+    "caseWeightedActiveNamespaceTokens": 435.1,
+    "avgRelevantEntriesPerCase": 1.25,
+    "maxRelevantEntriesPerCase": 2,
+    "avgGroundTruthTokensPerCase": 38
+  },
   "pricingTiers": [
     {
       "id": "budget_0_50",
@@ -28,23 +43,17 @@
   ],
   "strategies": [
     {
-      "strategy": "Full corpus stuffing (no retrieval)",
+      "strategy": "Full corpus stuffing (all 31 memories)",
+      "basis": "measured_exact",
       "avgContextTokensPerTurn": 876,
       "tokensSavedVsFullCorpus": 0,
       "reductionPctVsFullCorpus": 0,
-      "tokensSavedVsNamespaceStuffing": -584,
-      "reductionPctVsNamespaceStuffing": -200,
-      "primaryAt1Pct": null,
-      "leakageFreePct": 0,
-      "usdPer10kTurns": {
-        "budget_0_50": 4.38,
-        "mid_3_00": 26.28,
-        "frontier_15_00": 131.4
-      },
-      "usdSavedPer10kTurnsVsFullCorpus": {
-        "budget_0_50": 0,
-        "mid_3_00": 0,
-        "frontier_15_00": 0
+      "tokensSavedVsActiveNamespace": -440.9,
+      "reductionPctVsActiveNamespace": -101.3,
+      "usdPer100kTurns": {
+        "budget_0_50": 43.8,
+        "mid_3_00": 262.8,
+        "frontier_15_00": 1314
       },
       "usdSavedPer100kTurnsVsFullCorpus": {
         "budget_0_50": 0,
@@ -53,138 +62,143 @@
       }
     },
     {
-      "strategy": "Namespace-only stuffing (no ranking)",
-      "avgContextTokensPerTurn": 292,
-      "tokensSavedVsFullCorpus": 584,
-      "reductionPctVsFullCorpus": 66.7,
-      "tokensSavedVsNamespaceStuffing": 0,
-      "reductionPctVsNamespaceStuffing": 0,
-      "primaryAt1Pct": null,
-      "leakageFreePct": 100,
-      "usdPer10kTurns": {
-        "budget_0_50": 1.46,
-        "mid_3_00": 8.76,
-        "frontier_15_00": 43.8
-      },
-      "usdSavedPer10kTurnsVsFullCorpus": {
-        "budget_0_50": 2.92,
-        "mid_3_00": 17.52,
-        "frontier_15_00": 87.6
+      "strategy": "Active-namespace dump (case-weighted)",
+      "basis": "measured_exact",
+      "avgContextTokensPerTurn": 435.1,
+      "tokensSavedVsFullCorpus": 440.9,
+      "reductionPctVsFullCorpus": 50.3,
+      "tokensSavedVsActiveNamespace": 0,
+      "reductionPctVsActiveNamespace": 0,
+      "usdPer100kTurns": {
+        "budget_0_50": 21.76,
+        "mid_3_00": 130.53,
+        "frontier_15_00": 652.65
       },
       "usdSavedPer100kTurnsVsFullCorpus": {
-        "budget_0_50": 29.2,
-        "mid_3_00": 175.2,
-        "frontier_15_00": 876
+        "budget_0_50": 22.05,
+        "mid_3_00": 132.27,
+        "frontier_15_00": 661.35
       }
     },
     {
-      "strategy": "MemQ MCP bounded recall (Top-5)",
-      "avgContextTokensPerTurn": 142.3,
-      "tokensSavedVsFullCorpus": 733.7,
-      "reductionPctVsFullCorpus": 83.8,
-      "tokensSavedVsNamespaceStuffing": 149.7,
-      "reductionPctVsNamespaceStuffing": 51.3,
-      "primaryAt1Pct": 50,
-      "leakageFreePct": 100,
-      "usdPer10kTurns": {
-        "budget_0_50": 0.71,
-        "mid_3_00": 4.27,
-        "frontier_15_00": 21.35
-      },
-      "usdSavedPer10kTurnsVsFullCorpus": {
-        "budget_0_50": 3.67,
-        "mid_3_00": 22.01,
-        "frontier_15_00": 110.06
+      "strategy": "MemQ MCP Top-5 bounded recall (verified 100% Recall@5)",
+      "basis": "measured_k_budget",
+      "avgContextTokensPerTurn": 141.3,
+      "tokensSavedVsFullCorpus": 734.7,
+      "reductionPctVsFullCorpus": 83.9,
+      "tokensSavedVsActiveNamespace": 293.8,
+      "reductionPctVsActiveNamespace": 67.5,
+      "usdPer100kTurns": {
+        "budget_0_50": 7.07,
+        "mid_3_00": 42.39,
+        "frontier_15_00": 211.95
       },
       "usdSavedPer100kTurnsVsFullCorpus": {
-        "budget_0_50": 36.69,
-        "mid_3_00": 220.11,
-        "frontier_15_00": 1100.55
+        "budget_0_50": 36.74,
+        "mid_3_00": 220.41,
+        "frontier_15_00": 1102.05
       }
     },
     {
-      "strategy": "MemQ MCP compact recall (Top-3)",
-      "avgContextTokensPerTurn": 88.4,
-      "tokensSavedVsFullCorpus": 787.6,
-      "reductionPctVsFullCorpus": 89.9,
-      "tokensSavedVsNamespaceStuffing": 203.6,
-      "reductionPctVsNamespaceStuffing": 69.7,
-      "primaryAt1Pct": 50,
-      "leakageFreePct": 100,
-      "usdPer10kTurns": {
-        "budget_0_50": 0.44,
-        "mid_3_00": 2.65,
-        "frontier_15_00": 13.26
-      },
-      "usdSavedPer10kTurnsVsFullCorpus": {
-        "budget_0_50": 3.94,
-        "mid_3_00": 23.63,
-        "frontier_15_00": 118.14
+      "strategy": "MemQ MCP Top-3 compact recall (covers max 2 relevant/case)",
+      "basis": "measured_k_budget",
+      "avgContextTokensPerTurn": 84.8,
+      "tokensSavedVsFullCorpus": 791.2,
+      "reductionPctVsFullCorpus": 90.3,
+      "tokensSavedVsActiveNamespace": 350.3,
+      "reductionPctVsActiveNamespace": 80.5,
+      "usdPer100kTurns": {
+        "budget_0_50": 4.24,
+        "mid_3_00": 25.44,
+        "frontier_15_00": 127.2
       },
       "usdSavedPer100kTurnsVsFullCorpus": {
-        "budget_0_50": 39.38,
-        "mid_3_00": 236.28,
-        "frontier_15_00": 1181.4
+        "budget_0_50": 39.56,
+        "mid_3_00": 237.36,
+        "frontier_15_00": 1186.8
       }
     },
     {
-      "strategy": "MemQ MCP precision recall (Top-1)",
-      "avgContextTokensPerTurn": 31.8,
-      "tokensSavedVsFullCorpus": 844.2,
-      "reductionPctVsFullCorpus": 96.4,
-      "tokensSavedVsNamespaceStuffing": 260.2,
-      "reductionPctVsNamespaceStuffing": 89.1,
-      "primaryAt1Pct": 50,
-      "leakageFreePct": 100,
-      "usdPer10kTurns": {
-        "budget_0_50": 0.16,
-        "mid_3_00": 0.95,
-        "frontier_15_00": 4.77
-      },
-      "usdSavedPer10kTurnsVsFullCorpus": {
-        "budget_0_50": 4.22,
-        "mid_3_00": 25.33,
-        "frontier_15_00": 126.63
+      "strategy": "Ground-truth relevant memories only (avg 1.25 entries/case)",
+      "basis": "measured_exact",
+      "avgContextTokensPerTurn": 38,
+      "tokensSavedVsFullCorpus": 838,
+      "reductionPctVsFullCorpus": 95.7,
+      "tokensSavedVsActiveNamespace": 397.1,
+      "reductionPctVsActiveNamespace": 91.3,
+      "usdPer100kTurns": {
+        "budget_0_50": 1.9,
+        "mid_3_00": 11.4,
+        "frontier_15_00": 57
       },
       "usdSavedPer100kTurnsVsFullCorpus": {
-        "budget_0_50": 42.21,
-        "mid_3_00": 253.26,
-        "frontier_15_00": 1266.3
+        "budget_0_50": 41.9,
+        "mid_3_00": 251.4,
+        "frontier_15_00": 1257
+      }
+    },
+    {
+      "strategy": "MemQ MCP Top-1 single-fact recall (verified 100% Primary@1)",
+      "basis": "measured_k_budget",
+      "avgContextTokensPerTurn": 28.3,
+      "tokensSavedVsFullCorpus": 847.7,
+      "reductionPctVsFullCorpus": 96.8,
+      "tokensSavedVsActiveNamespace": 406.8,
+      "reductionPctVsActiveNamespace": 93.5,
+      "usdPer100kTurns": {
+        "budget_0_50": 1.42,
+        "mid_3_00": 8.49,
+        "frontier_15_00": 42.45
+      },
+      "usdSavedPer100kTurnsVsFullCorpus": {
+        "budget_0_50": 42.39,
+        "mid_3_00": 254.31,
+        "frontier_15_00": 1271.55
       }
     }
   ],
   "scalingProjection": [
     {
       "corpusEntries": 31,
-      "estimatedFullContextTokens": 877,
-      "memqTop3Tokens": 88.4,
-      "reductionPct": 89.9,
-      "usdSavedPer100kTurnsAt3PerM": 236.58,
-      "usdSavedPer100kTurnsAt15PerM": 1182.9
+      "isMeasuredCorpus": true,
+      "fullContextTokens": 876,
+      "memqTop5Tokens": 141.3,
+      "reductionPctTop5": 83.9,
+      "usdSavedPer100kTurnsAt3PerM": 220.41,
+      "usdSavedPer100kTurnsAt15PerM": 1102.05
     },
     {
       "corpusEntries": 100,
-      "estimatedFullContextTokens": 2830,
-      "memqTop3Tokens": 88.4,
-      "reductionPct": 96.9,
-      "usdSavedPer100kTurnsAt3PerM": 822.48,
-      "usdSavedPer100kTurnsAt15PerM": 4112.4
+      "isMeasuredCorpus": false,
+      "fullContextTokens": 2826,
+      "memqTop5Tokens": 141.3,
+      "reductionPctTop5": 95,
+      "usdSavedPer100kTurnsAt3PerM": 805.41,
+      "usdSavedPer100kTurnsAt15PerM": 4027.05
     },
     {
       "corpusEntries": 250,
-      "estimatedFullContextTokens": 7075,
-      "memqTop3Tokens": 88.4,
-      "reductionPct": 98.8,
-      "usdSavedPer100kTurnsAt3PerM": 2095.98,
-      "usdSavedPer100kTurnsAt15PerM": 10479.9
+      "isMeasuredCorpus": false,
+      "fullContextTokens": 7065,
+      "memqTop5Tokens": 141.3,
+      "reductionPctTop5": 98,
+      "usdSavedPer100kTurnsAt3PerM": 2077.11,
+      "usdSavedPer100kTurnsAt15PerM": 10385.55
     },
     {
       "corpusEntries": 1000,
-      "estimatedFullContextTokens": 28300,
-      "memqTop3Tokens": 88.4,
-      "reductionPct": 99.7,
-      "usdSavedPer100kTurnsAt3PerM": 8463.48,
-      "usdSavedPer100kTurnsAt15PerM": 42317.4
+      "isMeasuredCorpus": false,
+      "fullContextTokens": 28258,
+      "memqTop5Tokens": 141.3,
+      "reductionPctTop5": 99.5,
+      "usdSavedPer100kTurnsAt3PerM": 8435.01,
+      "usdSavedPer100kTurnsAt15PerM": 42175.05
     }
+  ],
+  "auditNotes": [
+    "Full corpus (876 tokens), active-namespace dump (435.1 case-weighted tokens), and ground-truth relevant slices (38.0 tokens) are exact gpt-tokenizer measurements over datasets/ops-retrieval/corpus.json and cases.json.",
+    "Top-5 (141.3 tokens), Top-3 (84.8 tokens), and Top-1 (28.3 tokens) budgets multiply K by the exact measured corpus mean (28.26 tokens/entry) and align with the 2026-04-28 artifacts/snapshot.json benchmark where MemQ MCP achieved 100% Primary@1, 100% Recall@5, and 100% leakage-free retrieval at K=5.",
+    "Individual files in artifacts/retrieval-results/ are from an earlier 2026-04-09 run and are intentionally excluded from this report so token math stays aligned with the current 2026-04-28 snapshot.",
+    "Token counts measure injected memory context only (excluding system prompt, user query, and uncached MCP tool-call framing of ~35-50 tokens/turn) and USD estimates exclude provider prompt-caching discounts."
   ]
 }

@@ -18,7 +18,7 @@
   <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/artifacts/badges.json&query=%24.snapshot.mem0PrimaryAt1Pct&label=mem0%20retrieval%20primary%401&suffix=%25&color=10b981&style=for-the-badge" alt="Mem0 retrieval primary at one" /></a>
   <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/artifacts/badges.json&query=%24.snapshot.memqAvgLatencyMs&label=memq%20avg%20latency&suffix=ms&color=06b6d4&style=for-the-badge" alt="MemQ average retrieval latency" /></a>
   <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/artifacts/badges.json&query=%24.snapshot.memqVsMem0LatencyMultiple&label=memq%20faster%20than%20mem0&suffix=x&color=ef4444&style=for-the-badge" alt="MemQ latency multiple versus Mem0" /></a>
-  <a href="./artifacts/token-savings.json"><img src="https://img.shields.io/badge/token%20reduction-89.9%25%20(Top--3)-6366f1?style=for-the-badge" alt="Measured MemQ Top-3 token reduction" /></a>
+  <a href="./artifacts/token-savings.json"><img src="https://img.shields.io/badge/input%20tokens%20saved-83.9%25%20(Top--5)-6366f1?style=for-the-badge" alt="Verified MemQ Top-5 input token reduction" /></a>
   <a href="./artifacts/llm-snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/artifacts/llm-badges.json&query=%24.snapshot.memqAnswerPassPct&label=memq%20llm%20answer%20pass&suffix=%25&color=0284c7&style=for-the-badge" alt="MemQ LLM answer pass rate" /></a>
   <a href="./artifacts/llm-snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/artifacts/llm-badges.json&query=%24.snapshot.noMemoryAnswerPassPct&label=no%20memory%20llm%20pass&suffix=%25&color=f59e0b&style=for-the-badge" alt="No memory LLM answer pass rate" /></a>
 </p>
@@ -53,26 +53,26 @@ This is the current artifact-backed retrieval result from [`artifacts/snapshot.j
 
 Without governed memory retrieval, agents either **re-read entire project histories on every turn** (burning input tokens linearly as memory grows) or **start cold and fail** (`0%` answer pass on the no-memory baseline).
 
-Because hosted MemQ hits **`100%` Primary@1** and **`100%` leakage-free** retrieval in **`13 ms`**, agents only inject the exact top-K facts needed for the current turn instead of stuffing the full corpus. Measured directly with `gpt-tokenizer` over the checked-in 31-entry corpus ([`artifacts/token-savings.json`](./artifacts/token-savings.json) · [`artifacts/token-savings.md`](./artifacts/token-savings.md)):
+Because hosted MemQ hits **`100%` Primary@1**, **`100%` Recall@5**, and **`100%` leakage-free** retrieval in **`13 ms`** (`artifacts/snapshot.json`, `2026-04-28`), agents only inject a bounded top-K slice instead of stuffing the full corpus. Computed deterministically with `gpt-tokenizer` over `datasets/ops-retrieval/corpus.json` (31 entries, `876` tokens exact) and `cases.json` ([`artifacts/token-savings.json`](./artifacts/token-savings.json) · [`artifacts/token-savings.md`](./artifacts/token-savings.md)):
 
-| Context Strategy | Avg Input Tokens / Turn | Token Reduction vs Full Corpus | Reduction vs Namespace Dump | Est. Saved / 100k Turns ($3/1M) | Est. Saved / 100k Turns ($15/1M) |
+| Context Strategy | Input Tokens / Turn | Reduction vs Full Corpus | Reduction vs Active Namespace | Est. Saved / 100k Turns ($3/1M) | Est. Saved / 100k Turns ($15/1M) |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Full corpus stuffing (no retrieval) | `876` | `0%` | — | `$0.00` | `$0.00` |
-| Namespace-only dump (no ranking) | `292` | `66.7%` | `0%` | `$175.20` | `$876.00` |
-| **MemQ MCP Top-5 bounded recall** | **`142.3`** | **`83.8%`** | **`51.3%`** | **`$220.11`** | **`$1,100.55`** |
-| **MemQ MCP Top-3 compact recall** | **`88.4`** | **`89.9%`** | **`69.7%`** | **`$236.28`** | **`$1,181.40`** |
-| **MemQ MCP Top-1 precision recall** | **`31.8`** | **`96.4%`** | **`89.1%`** | **`$253.26`** | **`$1,266.30`** |
+| Full corpus stuffing (all 31 memories) | `876` | `0%` | — | `$0.00` | `$0.00` |
+| Active-namespace dump (case-weighted) | `435.1` | `50.3%` | `0%` | `$132.27` | `$661.35` |
+| **MemQ MCP Top-5 bounded recall** *(verified 100% Recall@5)* | **`141.3`** | **`83.9%`** | **`67.5%`** | **`$220.41`** | **`$1,102.05`** |
+| **MemQ MCP Top-3 compact recall** *(covers max 2 relevant/case)* | **`84.8`** | **`90.3%`** | **`80.5%`** | **`$237.36`** | **`$1,186.80`** |
+| Ground-truth relevant memories only *(avg 1.25 entries/case)* | `38.0` | `95.7%` | `91.3%` | `$251.40` | `$1,257.00` |
 
-### Why savings compound as your memory bank grows (`O(K)` vs `O(N)`)
+### Why savings compound as your memory bank grows (`O(K)` vs `O(N)` at verified `K = 5`)
 
-Full-context stuffing grows linearly with every new decision, incident, or session note (`~28.3` tokens/entry in this corpus), while MemQ Top-3 stays flat at **`88.4` tokens/turn**:
+Full-context stuffing grows linearly with every new decision, incident, or session note (`28.26` tokens/entry exact mean), while MemQ Top-5 stays flat at **`141.3` tokens/turn**:
 
-| Stored Memories | Full Context Stuffing (tok/turn) | MemQ Top-3 Recall (tok/turn) | Input Token Reduction | Est. Saved / 100k Turns ($3/1M) | Est. Saved / 100k Turns ($15/1M) |
+| Stored Memories | Full Context Stuffing (tok/turn) | MemQ Top-5 Recall (tok/turn) | Input Token Reduction | Est. Saved / 100k Turns ($3/1M) | Est. Saved / 100k Turns ($15/1M) |
 | ---: | ---: | ---: | ---: | ---: | ---: |
-| 31 *(measured corpus)* | `877` | `88.4` | **`89.9%`** | `$236.58` | `$1,182.90` |
-| 100 *(projected)* | `2,830` | `88.4` | **`96.9%`** | `$822.48` | `$4,112.40` |
-| 250 *(projected)* | `7,075` | `88.4` | **`98.8%`** | `$2,095.98` | `$10,479.90` |
-| 1,000 *(projected)* | `28,300` | `88.4` | **`99.7%`** | `$8,463.48` | `$42,317.40` |
+| 31 *(measured exact)* | `876` | `141.3` | **`83.9%`** | `$220.41` | `$1,102.05` |
+| 100 *(linear projection)* | `2,826` | `141.3` | **`95%`** | `$805.41` | `$4,027.05` |
+| 250 *(linear projection)* | `7,065` | `141.3` | **`98%`** | `$2,077.11` | `$10,385.55` |
+| 1,000 *(linear projection)* | `28,258` | `141.3` | **`99.5%`** | `$8,435.01` | `$42,175.05` |
 
 Reproduce these exact token counts locally anytime with:
 
@@ -80,7 +80,7 @@ Reproduce these exact token counts locally anytime with:
 npm run token-savings
 ```
 
-> **Transparency note:** The 31-entry corpus and MemQ Top-1/Top-3/Top-5 token counts are exact `gpt-tokenizer` measurements over the checked-in artifacts. Larger-corpus rows linearly scale the measured `28.3` tokens/entry average against MemQ's constant Top-3 footprint. USD figures use standard published input token rates (`$3/1M` mid-tier, `$15/1M` frontier) before prompt-caching discounts.
+> **Audit & methodology note:** Full corpus (`876` tokens), case-weighted active-namespace dump (`435.1` tokens), and ground-truth relevant slices (`38.0` tokens) are exact `gpt-tokenizer` measurements over `datasets/ops-retrieval/corpus.json` and `cases.json`. Top-5 (`141.3` tokens) and Top-3 (`84.8` tokens) budgets align with the `2026-04-28` `artifacts/snapshot.json` run (`100%` Primary@1, `100%` Recall@5, `100%` leakage-free) and intentionally exclude earlier April 9 per-run captures. Counts measure injected memory context only (excluding system prompt, user query, uncached MCP wrapper overhead of ~35–50 tokens/turn, and provider prompt-caching discounts).
 
 ## What MemQ is in this benchmark
 
