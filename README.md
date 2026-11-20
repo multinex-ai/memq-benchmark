@@ -12,16 +12,15 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/multinex-ai/memq-bench/actions/workflows/benchmark.yml"><img src="https://img.shields.io/github/actions/workflow/status/multinex-ai/memq-bench/benchmark.yml?branch=master&label=benchmark&style=for-the-badge" alt="Benchmark workflow status" /></a>
-  <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-bench/master/artifacts/badges.json&query=%24.snapshot.caseCount&label=retrieval%20cases&color=7c3aed&style=for-the-badge" alt="Retrieval case count" /></a>
-  <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-bench/master/artifacts/badges.json&query=%24.snapshot.memqPrimaryAt1Pct&label=memq%20retrieval%20primary%401&suffix=%25&color=0ea5e9&style=for-the-badge" alt="MemQ retrieval primary at one" /></a>
-  <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-bench/master/artifacts/badges.json&query=%24.snapshot.mem0PrimaryAt1Pct&label=mem0%20retrieval%20primary%401&suffix=%25&color=10b981&style=for-the-badge" alt="Mem0 retrieval primary at one" /></a>
-  <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-bench/master/artifacts/badges.json&query=%24.snapshot.memqAvgLatencyMs&label=memq%20avg%20latency&suffix=ms&color=06b6d4&style=for-the-badge" alt="MemQ average retrieval latency" /></a>
-  <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-bench/master/artifacts/badges.json&query=%24.snapshot.memqVsMem0LatencyMultiple&label=memq%20faster%20than%20mem0&suffix=x&color=ef4444&style=for-the-badge" alt="MemQ latency multiple versus Mem0" /></a>
-  <a href="./artifacts/llm-snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-bench/master/artifacts/llm-badges.json&query=%24.snapshot.memqAnswerPassPct&label=memq%20llm%20answer%20pass&suffix=%25&color=0284c7&style=for-the-badge" alt="MemQ LLM answer pass rate" /></a>
-  <a href="./artifacts/llm-snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-bench/master/artifacts/llm-badges.json&query=%24.snapshot.noMemoryAnswerPassPct&label=no%20memory%20llm%20pass&suffix=%25&color=f59e0b&style=for-the-badge" alt="No memory LLM answer pass rate" /></a>
-  <a href="./artifacts/llm-snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-bench/master/artifacts/llm-badges.json&query=%24.snapshot.memqVsNoMemoryAnswerDeltaPts&label=memq%20vs%20no%20memory&suffix=%20pts&color=2563eb&style=for-the-badge" alt="MemQ versus no memory answer delta" /></a>
-  <a href="./artifacts/llm-snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-bench/master/artifacts/llm-badges.json&query=%24.snapshot.memqVsMem0AnswerDeltaPts&label=memq%20vs%20mem0&suffix=%20pts&color=64748b&style=for-the-badge" alt="MemQ versus Mem0 answer delta" /></a>
+  <a href="https://github.com/multinex-ai/memq-benchmark/actions/workflows/benchmark.yml"><img src="https://img.shields.io/github/actions/workflow/status/multinex-ai/memq-benchmark/benchmark.yml?branch=master&label=benchmark&style=for-the-badge" alt="Benchmark workflow status" /></a>
+  <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/artifacts/badges.json&query=%24.snapshot.caseCount&label=retrieval%20cases&color=7c3aed&style=for-the-badge" alt="Retrieval case count" /></a>
+  <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/artifacts/badges.json&query=%24.snapshot.memqPrimaryAt1Pct&label=memq%20retrieval%20primary%401&suffix=%25&color=0ea5e9&style=for-the-badge" alt="MemQ retrieval primary at one" /></a>
+  <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/artifacts/badges.json&query=%24.snapshot.mem0PrimaryAt1Pct&label=mem0%20retrieval%20primary%401&suffix=%25&color=10b981&style=for-the-badge" alt="Mem0 retrieval primary at one" /></a>
+  <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/artifacts/badges.json&query=%24.snapshot.memqAvgLatencyMs&label=memq%20avg%20latency&suffix=ms&color=06b6d4&style=for-the-badge" alt="MemQ average retrieval latency" /></a>
+  <a href="./artifacts/snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/artifacts/badges.json&query=%24.snapshot.memqVsMem0LatencyMultiple&label=memq%20faster%20than%20mem0&suffix=x&color=ef4444&style=for-the-badge" alt="MemQ latency multiple versus Mem0" /></a>
+  <a href="./artifacts/token-savings.json"><img src="https://img.shields.io/badge/token%20reduction-89.9%25%20(Top--3)-6366f1?style=for-the-badge" alt="Measured MemQ Top-3 token reduction" /></a>
+  <a href="./artifacts/llm-snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/artifacts/llm-badges.json&query=%24.snapshot.memqAnswerPassPct&label=memq%20llm%20answer%20pass&suffix=%25&color=0284c7&style=for-the-badge" alt="MemQ LLM answer pass rate" /></a>
+  <a href="./artifacts/llm-snapshot.json"><img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/artifacts/llm-badges.json&query=%24.snapshot.noMemoryAnswerPassPct&label=no%20memory%20llm%20pass&suffix=%25&color=f59e0b&style=for-the-badge" alt="No memory LLM answer pass rate" /></a>
 </p>
 
 <p align="center">
@@ -50,6 +49,39 @@ Hosted MemQ is dramatically ahead of the Mem0 OSS adapter in the current retriev
 
 This is the current artifact-backed retrieval result from [`artifacts/snapshot.json`](./artifacts/snapshot.json), not marketing copy.
 
+## Token & cost savings: why bounded recall pays for itself
+
+Without governed memory retrieval, agents either **re-read entire project histories on every turn** (burning input tokens linearly as memory grows) or **start cold and fail** (`0%` answer pass on the no-memory baseline).
+
+Because hosted MemQ hits **`100%` Primary@1** and **`100%` leakage-free** retrieval in **`13 ms`**, agents only inject the exact top-K facts needed for the current turn instead of stuffing the full corpus. Measured directly with `gpt-tokenizer` over the checked-in 31-entry corpus ([`artifacts/token-savings.json`](./artifacts/token-savings.json) · [`artifacts/token-savings.md`](./artifacts/token-savings.md)):
+
+| Context Strategy | Avg Input Tokens / Turn | Token Reduction vs Full Corpus | Reduction vs Namespace Dump | Est. Saved / 100k Turns ($3/1M) | Est. Saved / 100k Turns ($15/1M) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Full corpus stuffing (no retrieval) | `876` | `0%` | — | `$0.00` | `$0.00` |
+| Namespace-only dump (no ranking) | `292` | `66.7%` | `0%` | `$175.20` | `$876.00` |
+| **MemQ MCP Top-5 bounded recall** | **`142.3`** | **`83.8%`** | **`51.3%`** | **`$220.11`** | **`$1,100.55`** |
+| **MemQ MCP Top-3 compact recall** | **`88.4`** | **`89.9%`** | **`69.7%`** | **`$236.28`** | **`$1,181.40`** |
+| **MemQ MCP Top-1 precision recall** | **`31.8`** | **`96.4%`** | **`89.1%`** | **`$253.26`** | **`$1,266.30`** |
+
+### Why savings compound as your memory bank grows (`O(K)` vs `O(N)`)
+
+Full-context stuffing grows linearly with every new decision, incident, or session note (`~28.3` tokens/entry in this corpus), while MemQ Top-3 stays flat at **`88.4` tokens/turn**:
+
+| Stored Memories | Full Context Stuffing (tok/turn) | MemQ Top-3 Recall (tok/turn) | Input Token Reduction | Est. Saved / 100k Turns ($3/1M) | Est. Saved / 100k Turns ($15/1M) |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 31 *(measured corpus)* | `877` | `88.4` | **`89.9%`** | `$236.58` | `$1,182.90` |
+| 100 *(projected)* | `2,830` | `88.4` | **`96.9%`** | `$822.48` | `$4,112.40` |
+| 250 *(projected)* | `7,075` | `88.4` | **`98.8%`** | `$2,095.98` | `$10,479.90` |
+| 1,000 *(projected)* | `28,300` | `88.4` | **`99.7%`** | `$8,463.48` | `$42,317.40` |
+
+Reproduce these exact token counts locally anytime with:
+
+```bash
+npm run token-savings
+```
+
+> **Transparency note:** The 31-entry corpus and MemQ Top-1/Top-3/Top-5 token counts are exact `gpt-tokenizer` measurements over the checked-in artifacts. Larger-corpus rows linearly scale the measured `28.3` tokens/entry average against MemQ's constant Top-3 footprint. USD figures use standard published input token rates (`$3/1M` mid-tier, `$15/1M` frontier) before prompt-caching discounts.
+
 ## What MemQ is in this benchmark
 
 MemQ is not presented here as a self-managed retrieval helper. In this repo, MemQ is the hosted, governed global intelligence fabric exposed through the MemQ MCP surface and Billing Manager access controls.
@@ -66,6 +98,8 @@ That makes the comparison intentionally explicit:
 - [Benchmark docs](./docs/README.md)
 - [Methodology](./docs/methodology.md)
 - [Reproducibility protocol](./docs/reproducibility-protocol.md)
+- [Token & cost savings summary](./artifacts/token-savings.md)
+- [Token & cost savings JSON](./artifacts/token-savings.json)
 - [Retrieval snapshot](./artifacts/snapshot.json)
 - [Retrieval summary](./artifacts/summary.md)
 - [LLM snapshot](./artifacts/llm-snapshot.json)
@@ -218,9 +252,9 @@ Copy the appropriate template into your project root:
 
 | Tool | Command |
 |------|---------|
-| **Cursor** | `curl -fsSL https://raw.githubusercontent.com/multinex-ai/memq-bench/master/skills/hooks/templates/.cursorrules > .cursorrules` |
-| **Claude Code** | `mkdir -p .claude && curl -fsSL https://raw.githubusercontent.com/multinex-ai/memq-bench/master/skills/hooks/templates/claude-instructions.md > .claude/instructions.md` |
-| **Gemini / Antigravity** | `curl -fsSL https://raw.githubusercontent.com/multinex-ai/memq-bench/master/skills/hooks/templates/GEMINI.md > GEMINI.md` |
+| **Cursor** | `curl -fsSL https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/skills/hooks/templates/.cursorrules > .cursorrules` |
+| **Claude Code** | `mkdir -p .claude && curl -fsSL https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/skills/hooks/templates/claude-instructions.md > .claude/instructions.md` |
+| **Gemini / Antigravity** | `curl -fsSL https://raw.githubusercontent.com/multinex-ai/memq-benchmark/master/skills/hooks/templates/GEMINI.md > GEMINI.md` |
 
 ### Skills
 

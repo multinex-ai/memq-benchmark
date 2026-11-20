@@ -1,0 +1,190 @@
+{
+  "benchmark": "memq-token-cost-savings",
+  "tokenizer": "gpt-tokenizer (cl100k/o200k BPE via countTokens)",
+  "corpusPath": "datasets/ops-retrieval/corpus.json",
+  "retrievalResultsDir": "artifacts/retrieval-results",
+  "corpusEntryCount": 31,
+  "fullCorpusTokens": 876,
+  "avgNamespaceEntryCount": 10.3,
+  "avgNamespaceTokens": 292,
+  "avgTokensPerEntry": 28.3,
+  "memqRetrievalRunsAnalyzed": 12,
+  "pricingTiers": [
+    {
+      "id": "budget_0_50",
+      "label": "Budget ($0.50 / 1M input tokens)",
+      "inputUsdPerMillion": 0.5
+    },
+    {
+      "id": "mid_3_00",
+      "label": "Mid-tier ($3.00 / 1M input tokens)",
+      "inputUsdPerMillion": 3
+    },
+    {
+      "id": "frontier_15_00",
+      "label": "Frontier ($15.00 / 1M input tokens)",
+      "inputUsdPerMillion": 15
+    }
+  ],
+  "strategies": [
+    {
+      "strategy": "Full corpus stuffing (no retrieval)",
+      "avgContextTokensPerTurn": 876,
+      "tokensSavedVsFullCorpus": 0,
+      "reductionPctVsFullCorpus": 0,
+      "tokensSavedVsNamespaceStuffing": -584,
+      "reductionPctVsNamespaceStuffing": -200,
+      "primaryAt1Pct": null,
+      "leakageFreePct": 0,
+      "usdPer10kTurns": {
+        "budget_0_50": 4.38,
+        "mid_3_00": 26.28,
+        "frontier_15_00": 131.4
+      },
+      "usdSavedPer10kTurnsVsFullCorpus": {
+        "budget_0_50": 0,
+        "mid_3_00": 0,
+        "frontier_15_00": 0
+      },
+      "usdSavedPer100kTurnsVsFullCorpus": {
+        "budget_0_50": 0,
+        "mid_3_00": 0,
+        "frontier_15_00": 0
+      }
+    },
+    {
+      "strategy": "Namespace-only stuffing (no ranking)",
+      "avgContextTokensPerTurn": 292,
+      "tokensSavedVsFullCorpus": 584,
+      "reductionPctVsFullCorpus": 66.7,
+      "tokensSavedVsNamespaceStuffing": 0,
+      "reductionPctVsNamespaceStuffing": 0,
+      "primaryAt1Pct": null,
+      "leakageFreePct": 100,
+      "usdPer10kTurns": {
+        "budget_0_50": 1.46,
+        "mid_3_00": 8.76,
+        "frontier_15_00": 43.8
+      },
+      "usdSavedPer10kTurnsVsFullCorpus": {
+        "budget_0_50": 2.92,
+        "mid_3_00": 17.52,
+        "frontier_15_00": 87.6
+      },
+      "usdSavedPer100kTurnsVsFullCorpus": {
+        "budget_0_50": 29.2,
+        "mid_3_00": 175.2,
+        "frontier_15_00": 876
+      }
+    },
+    {
+      "strategy": "MemQ MCP bounded recall (Top-5)",
+      "avgContextTokensPerTurn": 142.3,
+      "tokensSavedVsFullCorpus": 733.7,
+      "reductionPctVsFullCorpus": 83.8,
+      "tokensSavedVsNamespaceStuffing": 149.7,
+      "reductionPctVsNamespaceStuffing": 51.3,
+      "primaryAt1Pct": 50,
+      "leakageFreePct": 100,
+      "usdPer10kTurns": {
+        "budget_0_50": 0.71,
+        "mid_3_00": 4.27,
+        "frontier_15_00": 21.35
+      },
+      "usdSavedPer10kTurnsVsFullCorpus": {
+        "budget_0_50": 3.67,
+        "mid_3_00": 22.01,
+        "frontier_15_00": 110.06
+      },
+      "usdSavedPer100kTurnsVsFullCorpus": {
+        "budget_0_50": 36.69,
+        "mid_3_00": 220.11,
+        "frontier_15_00": 1100.55
+      }
+    },
+    {
+      "strategy": "MemQ MCP compact recall (Top-3)",
+      "avgContextTokensPerTurn": 88.4,
+      "tokensSavedVsFullCorpus": 787.6,
+      "reductionPctVsFullCorpus": 89.9,
+      "tokensSavedVsNamespaceStuffing": 203.6,
+      "reductionPctVsNamespaceStuffing": 69.7,
+      "primaryAt1Pct": 50,
+      "leakageFreePct": 100,
+      "usdPer10kTurns": {
+        "budget_0_50": 0.44,
+        "mid_3_00": 2.65,
+        "frontier_15_00": 13.26
+      },
+      "usdSavedPer10kTurnsVsFullCorpus": {
+        "budget_0_50": 3.94,
+        "mid_3_00": 23.63,
+        "frontier_15_00": 118.14
+      },
+      "usdSavedPer100kTurnsVsFullCorpus": {
+        "budget_0_50": 39.38,
+        "mid_3_00": 236.28,
+        "frontier_15_00": 1181.4
+      }
+    },
+    {
+      "strategy": "MemQ MCP precision recall (Top-1)",
+      "avgContextTokensPerTurn": 31.8,
+      "tokensSavedVsFullCorpus": 844.2,
+      "reductionPctVsFullCorpus": 96.4,
+      "tokensSavedVsNamespaceStuffing": 260.2,
+      "reductionPctVsNamespaceStuffing": 89.1,
+      "primaryAt1Pct": 50,
+      "leakageFreePct": 100,
+      "usdPer10kTurns": {
+        "budget_0_50": 0.16,
+        "mid_3_00": 0.95,
+        "frontier_15_00": 4.77
+      },
+      "usdSavedPer10kTurnsVsFullCorpus": {
+        "budget_0_50": 4.22,
+        "mid_3_00": 25.33,
+        "frontier_15_00": 126.63
+      },
+      "usdSavedPer100kTurnsVsFullCorpus": {
+        "budget_0_50": 42.21,
+        "mid_3_00": 253.26,
+        "frontier_15_00": 1266.3
+      }
+    }
+  ],
+  "scalingProjection": [
+    {
+      "corpusEntries": 31,
+      "estimatedFullContextTokens": 877,
+      "memqTop3Tokens": 88.4,
+      "reductionPct": 89.9,
+      "usdSavedPer100kTurnsAt3PerM": 236.58,
+      "usdSavedPer100kTurnsAt15PerM": 1182.9
+    },
+    {
+      "corpusEntries": 100,
+      "estimatedFullContextTokens": 2830,
+      "memqTop3Tokens": 88.4,
+      "reductionPct": 96.9,
+      "usdSavedPer100kTurnsAt3PerM": 822.48,
+      "usdSavedPer100kTurnsAt15PerM": 4112.4
+    },
+    {
+      "corpusEntries": 250,
+      "estimatedFullContextTokens": 7075,
+      "memqTop3Tokens": 88.4,
+      "reductionPct": 98.8,
+      "usdSavedPer100kTurnsAt3PerM": 2095.98,
+      "usdSavedPer100kTurnsAt15PerM": 10479.9
+    },
+    {
+      "corpusEntries": 1000,
+      "estimatedFullContextTokens": 28300,
+      "memqTop3Tokens": 88.4,
+      "reductionPct": 99.7,
+      "usdSavedPer100kTurnsAt3PerM": 8463.48,
+      "usdSavedPer100kTurnsAt15PerM": 42317.4
+    }
+  ]
+}

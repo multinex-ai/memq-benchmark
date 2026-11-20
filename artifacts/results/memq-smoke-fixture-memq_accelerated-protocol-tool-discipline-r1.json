@@ -11,11 +11,11 @@
   },
   "status": "passed",
   "reason": "",
-  "startedAt": "2026-04-08T12:38:16.230Z",
-  "finishedAt": "2026-04-08T12:38:16.240Z",
-  "durationMs": 11,
+  "startedAt": "2026-11-20T03:30:23.607Z",
+  "finishedAt": "2026-11-20T03:30:23.611Z",
+  "durationMs": 5,
   "promptTokens": 42,
-  "packedTokens": 145,
+  "packedTokens": 144,
   "verifier": {
     "matchedFacts": [
       "Agents should call memory_status before non-trivial work.",
@@ -28,18 +28,20 @@
   "retrieval": {
     "liveMemQ": false,
     "liveGraphiti": false,
-    "liveQdrant": true,
+    "liveQdrant": false,
     "langChainRerankUsed": true,
     "sliceCount": 8,
     "packedSliceCount": 8,
     "promptTokens": 42,
-    "packedTokens": 145,
+    "packedTokens": 144,
     "sourceCounts": {
       "langchain_rerank": 4,
       "qdrant": 4
     },
     "notes": [
-      "Graphiti unavailable: TypeError: fetch failed"
+      "MemQ MCP fallback to local Soul Journal: TypeError: fetch failed",
+      "Graphiti unavailable: TypeError: fetch failed",
+      "Qdrant unavailable: TypeError: fetch failed"
     ]
   },
   "payload": {
@@ -53,7 +55,7 @@
       "qdrant:qdrant-c5034b92ba0cb462",
       "qdrant:qdrant-c28cc7cc9e897ba8",
       "qdrant:qdrant-2cb7fecf256257c0",
-      "qdrant:qdrant-b63ac7b320acc553"
+      "qdrant:qdrant-179eda525a3d6cd7"
     ],
     "metadata": {
       "fixture": true,

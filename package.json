@@ -19,6 +19,8 @@
     "smoke": "tsx src/cli.ts smoke --run configs/smoke.json",
     "nightly": "tsx src/cli.ts nightly --run configs/nightly.json",
     "publish": "tsx src/cli.ts publish --results artifacts/results --out artifacts/snapshot.json",
+    "token-savings": "tsx src/tokenSavings.ts",
+    "check:hygiene": "node scripts/check-public-hygiene.mjs",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

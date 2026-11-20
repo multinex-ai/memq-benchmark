@@ -11,11 +11,11 @@
   },
   "status": "passed",
   "reason": "",
-  "startedAt": "2026-04-08T12:38:15.824Z",
-  "finishedAt": "2026-04-08T12:38:15.827Z",
-  "durationMs": 3,
+  "startedAt": "2026-11-20T03:30:17.888Z",
+  "finishedAt": "2026-11-20T03:30:17.892Z",
+  "durationMs": 4,
   "promptTokens": 42,
-  "packedTokens": 145,
+  "packedTokens": 144,
   "verifier": {
     "matchedFacts": [
       "Agents should call memory_status before non-trivial work.",
@@ -33,12 +33,14 @@
     "sliceCount": 8,
     "packedSliceCount": 8,
     "promptTokens": 42,
-    "packedTokens": 145,
+    "packedTokens": 144,
     "sourceCounts": {
       "prompt": 1,
       "memq_core": 7
     },
-    "notes": []
+    "notes": [
+      "MemQ MCP fallback to local Soul Journal: TypeError: fetch failed"
+    ]
   },
   "payload": {
     "answer": "- Agents should call memory_status before non-trivial work.\n- Agents should use search_memory for semantic recall and recent_memory for HOT continuity.\n- Agents should call add_memory after execution and reflect_memory at task or session close.",
@@ -51,7 +53,7 @@
       "memq_core:memq_core-c5034b92ba0cb462",
       "memq_core:memq_core-c28cc7cc9e897ba8",
       "memq_core:memq_core-2cb7fecf256257c0",
-      "memq_core:memq_core-b63ac7b320acc553"
+      "memq_core:memq_core-179eda525a3d6cd7"
     ],
     "metadata": {
       "fixture": true,
