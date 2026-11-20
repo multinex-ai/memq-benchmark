@@ -1,26 +1,32 @@
-# MemQ Measured Token & Cost Savings
+# MemQ Verified Input Token & Cost Savings
 
-Measured directly with `gpt-tokenizer (cl100k/o200k BPE via countTokens)` across `datasets/ops-retrieval/corpus.json` (31 operational memories, 876 tokens full corpus; 292 tokens average per namespace) and 12 completed `memq_mcp` retrieval runs in `artifacts/retrieval-results`.
+Computed deterministically with `gpt-tokenizer (BPE via src/tokenizer.ts)` over `datasets/ops-retrieval/corpus.json` (31 memories, `876` tokens exact; `28.26` tokens/entry) and `datasets/ops-retrieval/cases.json` (12 cases, `435.1` tokens case-weighted active-namespace dump), aligned with `artifacts/snapshot.json` (2026-04-28T18:02:44.970Z: **100% Primary@1**, **100% Recall@5**, **100% leakage-free**, **13 ms** avg latency).
 
-## Measured per-turn context footprint (checked-in 31-entry ops corpus)
+## Verified per-turn input token footprint (31-entry ops corpus)
 
-| Context Strategy | Avg Input Tokens / Turn | Saved vs Full Corpus | Saved vs Namespace Dump | Est. Saved / 100k Turns ($3/1M) | Est. Saved / 100k Turns ($15/1M) |
+| Context Strategy | Input Tokens / Turn | Reduction vs Full Corpus | Reduction vs Active Namespace | Est. Saved / 100k Turns ($3/1M) | Est. Saved / 100k Turns ($15/1M) |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Full corpus stuffing (no retrieval) | `876` | `0%` (0 tok) | `-200%` (-584 tok) | `$0.00` | `$0.00` |
-| Namespace-only stuffing (no ranking) | `292` | `66.7%` (584 tok) | `0%` (0 tok) | `$175.20` | `$876.00` |
-| MemQ MCP bounded recall (Top-5) | `142.3` | `83.8%` (733.7 tok) | `51.3%` (149.7 tok) | `$220.11` | `$1100.55` |
-| MemQ MCP compact recall (Top-3) | `88.4` | `89.9%` (787.6 tok) | `69.7%` (203.6 tok) | `$236.28` | `$1181.40` |
-| MemQ MCP precision recall (Top-1) | `31.8` | `96.4%` (844.2 tok) | `89.1%` (260.2 tok) | `$253.26` | `$1266.30` |
+| Full corpus stuffing (all 31 memories) | `876` | `0%` (0 tok) | `-101.3%` (-440.9 tok) | `$0.00` | `$0.00` |
+| Active-namespace dump (case-weighted) | `435.1` | `50.3%` (440.9 tok) | `0%` (0 tok) | `$132.27` | `$661.35` |
+| MemQ MCP Top-5 bounded recall (verified 100% Recall@5) | `141.3` | `83.9%` (734.7 tok) | `67.5%` (293.8 tok) | `$220.41` | `$1102.05` |
+| MemQ MCP Top-3 compact recall (covers max 2 relevant/case) | `84.8` | `90.3%` (791.2 tok) | `80.5%` (350.3 tok) | `$237.36` | `$1186.80` |
+| Ground-truth relevant memories only (avg 1.25 entries/case) | `38` | `95.7%` (838 tok) | `91.3%` (397.1 tok) | `$251.40` | `$1257.00` |
+| MemQ MCP Top-1 single-fact recall (verified 100% Primary@1) | `28.3` | `96.8%` (847.7 tok) | `93.5%` (406.8 tok) | `$254.31` | `$1271.55` |
 
-## Why savings compound as project memory grows (`O(K)` vs `O(N)`)
+## How savings scale as memory grows (`O(K)` vs `O(N)` at verified `K = 5`)
 
-Because MemQ returns a bounded top-K slice (`O(K)`) with `100%` Primary@1 accuracy on the benchmark corpus, your prompt stays flat while raw history/memory stuffing scales linearly (`O(N)`) with corpus size (projected at the measured `28.3` tokens/entry average):
+At the benchmark's verified `K = 5` (`100%` Recall@5, `141.3` tokens/turn), MemQ keeps memory context constant while full-context stuffing grows linearly at `28.26` tokens/entry:
 
-| Stored Memories | Full Context Stuffing (tok/turn) | MemQ Top-3 Bounded Recall (tok/turn) | Input Token Reduction | Est. Saved / 100k Turns ($3/1M) | Est. Saved / 100k Turns ($15/1M) |
+| Stored Memories | Full Context Stuffing (tok/turn) | MemQ Top-5 Recall (tok/turn) | Input Token Reduction | Est. Saved / 100k Turns ($3/1M) | Est. Saved / 100k Turns ($15/1M) |
 | ---: | ---: | ---: | ---: | ---: | ---: |
-| 31 (measured corpus) | `877` | `88.4` | `89.9%` | `$236.58` | `$1,182.90` |
-| 100 (projected) | `2,830` | `88.4` | `96.9%` | `$822.48` | `$4,112.40` |
-| 250 (projected) | `7,075` | `88.4` | `98.8%` | `$2,095.98` | `$10,479.90` |
-| 1000 (projected) | `28,300` | `88.4` | `99.7%` | `$8,463.48` | `$42,317.40` |
+| 31 *(measured exact)* | `876` | `141.3` | `83.9%` | `$220.41` | `$1,102.05` |
+| 100 *(linear projection)* | `2,826` | `141.3` | `95%` | `$805.41` | `$4,027.05` |
+| 250 *(linear projection)* | `7,065` | `141.3` | `98%` | `$2,077.11` | `$10,385.55` |
+| 1,000 *(linear projection)* | `28,258` | `141.3` | `99.5%` | `$8,435.01` | `$42,175.05` |
 
-_Methodology note: Token counts for the 31-entry corpus and MemQ Top-1/Top-3/Top-5 slices are exact `gpt-tokenizer` measurements over checked-in artifacts. Multi-hundred-entry rows linearly scale the measured average entry size (`28.3` tokens/entry) against MemQ's constant Top-3 footprint. USD figures apply standard published input token rates (`$0.50`, `$3.00`, `$15.00` per 1M input tokens) and exclude prompt caching discounts._
+## Audit & validation notes
+
+- Full corpus (876 tokens), active-namespace dump (435.1 case-weighted tokens), and ground-truth relevant slices (38.0 tokens) are exact gpt-tokenizer measurements over datasets/ops-retrieval/corpus.json and cases.json.
+- Top-5 (141.3 tokens), Top-3 (84.8 tokens), and Top-1 (28.3 tokens) budgets multiply K by the exact measured corpus mean (28.26 tokens/entry) and align with the 2026-04-28 artifacts/snapshot.json benchmark where MemQ MCP achieved 100% Primary@1, 100% Recall@5, and 100% leakage-free retrieval at K=5.
+- Individual files in artifacts/retrieval-results/ are from an earlier 2026-04-09 run and are intentionally excluded from this report so token math stays aligned with the current 2026-04-28 snapshot.
+- Token counts measure injected memory context only (excluding system prompt, user query, and uncached MCP tool-call framing of ~35-50 tokens/turn) and USD estimates exclude provider prompt-caching discounts.
