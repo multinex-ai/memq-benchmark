@@ -11,9 +11,9 @@
   },
   "status": "failed",
   "reason": "",
-  "startedAt": "2026-04-08T12:38:15.655Z",
-  "finishedAt": "2026-04-08T12:38:15.655Z",
-  "durationMs": 1,
+  "startedAt": "2026-11-20T03:30:17.797Z",
+  "finishedAt": "2026-11-20T03:30:17.804Z",
+  "durationMs": 7,
   "promptTokens": 31,
   "packedTokens": 56,
   "verifier": {

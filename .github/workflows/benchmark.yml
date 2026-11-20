@@ -32,6 +32,12 @@ jobs:
       - name: Type check
         run: npm run type-check
 
+      - name: Public hygiene check
+        run: npm run check:hygiene
+
+      - name: Verify token savings report
+        run: npm run token-savings && git diff --exit-code artifacts/token-savings.json artifacts/token-savings.md
+
   legacy-smoke:
     name: Legacy Fixture Smoke
     needs: [type-check]

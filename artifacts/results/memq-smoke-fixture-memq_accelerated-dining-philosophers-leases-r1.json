@@ -11,11 +11,11 @@
   },
   "status": "passed",
   "reason": "",
-  "startedAt": "2026-04-08T12:38:16.197Z",
-  "finishedAt": "2026-04-08T12:38:16.207Z",
-  "durationMs": 10,
+  "startedAt": "2026-11-20T03:30:23.592Z",
+  "finishedAt": "2026-11-20T03:30:23.597Z",
+  "durationMs": 5,
   "promptTokens": 36,
-  "packedTokens": 191,
+  "packedTokens": 190,
   "verifier": {
     "matchedFacts": [
       "Each philosopher requests fork access through namespace-scoped leases in MemQ.",
@@ -28,18 +28,20 @@
   "retrieval": {
     "liveMemQ": false,
     "liveGraphiti": false,
-    "liveQdrant": true,
+    "liveQdrant": false,
     "langChainRerankUsed": true,
     "sliceCount": 11,
     "packedSliceCount": 11,
     "promptTokens": 36,
-    "packedTokens": 191,
+    "packedTokens": 190,
     "sourceCounts": {
       "langchain_rerank": 6,
       "qdrant": 5
     },
     "notes": [
-      "Graphiti unavailable: TypeError: fetch failed"
+      "MemQ MCP fallback to local Soul Journal: TypeError: fetch failed",
+      "Graphiti unavailable: TypeError: fetch failed",
+      "Qdrant unavailable: TypeError: fetch failed"
     ]
   },
   "payload": {
@@ -53,7 +55,7 @@
       "langchain_rerank:qdrant-c8cdd868a95d5dc0",
       "qdrant:qdrant-c28cc7cc9e897ba8",
       "qdrant:qdrant-0460d755dd693c0a",
-      "langchain_rerank:qdrant-b63ac7b320acc553",
+      "langchain_rerank:qdrant-179eda525a3d6cd7",
       "qdrant:qdrant-f114433778b4af04",
       "qdrant:qdrant-c7be5538d859dfff",
       "qdrant:qdrant-9f88d1c7a3479fb7"

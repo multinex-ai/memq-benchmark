@@ -11,17 +11,17 @@
   },
   "status": "failed",
   "reason": "",
-  "startedAt": "2026-04-08T12:38:15.650Z",
-  "finishedAt": "2026-04-08T12:38:15.650Z",
+  "startedAt": "2026-11-20T03:30:17.717Z",
+  "finishedAt": "2026-11-20T03:30:17.717Z",
   "durationMs": 0,
-  "promptTokens": 32,
-  "packedTokens": 32,
+  "promptTokens": 30,
+  "packedTokens": 30,
   "verifier": {
     "matchedFacts": [],
     "missingFacts": [
-      "infra/docker/Dockerfile.munx copies docs/MANUAL.md.",
-      "docs/MANUAL.md must exist after munx-cli init.",
-      "The missing MANUAL.md caused munx up to fail during image build."
+      "infra/docker/Dockerfile.app copies docs/MANUAL.md.",
+      "docs/MANUAL.md must exist after app-cli init.",
+      "The missing MANUAL.md caused app up to fail during image build."
     ],
     "forbiddenFacts": []
   },
@@ -32,8 +32,8 @@
     "langChainRerankUsed": false,
     "sliceCount": 1,
     "packedSliceCount": 1,
-    "promptTokens": 32,
-    "packedTokens": 32,
+    "promptTokens": 30,
+    "packedTokens": 30,
     "sourceCounts": {
       "prompt": 1
     },
@@ -43,7 +43,7 @@
     "answer": "No high-confidence recall available from the provided context.",
     "artifacts": [],
     "toolCalls": [
-      "prompt:prompt-7a4c29801452d750"
+      "prompt:prompt-48d09de79e8bd262"
     ],
     "metadata": {
       "fixture": true,
